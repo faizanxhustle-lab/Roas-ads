@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: roas-master-api
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: SETUP_KEY
+        generateValue: true
+      - key: FRONTEND_ORIGIN
+        value: https://faizanxhustle-lab.github.io
+      - key: TELEGRAM_WEBHOOK_SECRET
+        generateValue: true
