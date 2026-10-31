@@ -23,5 +23,7 @@ services:
         generateValue: true
       - key: TELEGRAM_WEBHOOK_SECRET
         generateValue: true
+      - key: API_PUBLIC_URL
+        sync: false
       - key: FRONTEND_ORIGIN
         value: https://faizanxhustle-lab.github.io
