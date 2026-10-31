@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS users (id BIGSERIAL PRIMARY KEY,email TEXT UNIQUE NOT NULL,password_hash TEXT NOT NULL,role TEXT NOT NULL DEFAULT 'admin',created_at TIMESTAMPTZ DEFAULT now());
+CREATE TABLE IF NOT EXISTS clients (id BIGSERIAL PRIMARY KEY,name TEXT NOT NULL,email TEXT,created_at TIMESTAMPTZ DEFAULT now());
+CREATE TABLE IF NOT EXISTS pages (id BIGSERIAL PRIMARY KEY,client_id BIGINT REFERENCES clients(id) ON DELETE CASCADE,name TEXT NOT NULL,slug TEXT UNIQUE NOT NULL,headline TEXT NOT NULL,button_text TEXT NOT NULL DEFAULT 'Join now',destination_url TEXT,template TEXT DEFAULT 'community',published BOOLEAN DEFAULT false,created_at TIMESTAMPTZ DEFAULT now());
+CREATE TABLE IF NOT EXISTS tracking_links (id BIGSERIAL PRIMARY KEY,client_id BIGINT REFERENCES clients(id) ON DELETE CASCADE,campaign TEXT NOT NULL,slug TEXT UNIQUE NOT NULL,destination_url TEXT NOT NULL,clicks BIGINT DEFAULT 0,join_requests BIGINT DEFAULT 0,created_at TIMESTAMPTZ DEFAULT now());
+CREATE TABLE IF NOT EXISTS telegram_channels (id BIGSERIAL PRIMARY KEY,client_id BIGINT REFERENCES clients(id) ON DELETE CASCADE,chat_id TEXT NOT NULL,bot_username TEXT,created_at TIMESTAMPTZ DEFAULT now());
+CREATE TABLE IF NOT EXISTS telegram_events (id BIGSERIAL PRIMARY KEY,tracking_link_id BIGINT REFERENCES tracking_links(id) ON DELETE SET NULL,chat_id TEXT,user_id TEXT,created_at TIMESTAMPTZ DEFAULT now());
+CREATE INDEX IF NOT EXISTS idx_pages_client ON pages(client_id);
+CREATE INDEX IF NOT EXISTS idx_links_client ON tracking_links(client_id);
