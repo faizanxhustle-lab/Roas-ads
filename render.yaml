@@ -1,3 +1,8 @@
+databases:
+  - name: roas-master-db
+    databaseName: roas_master
+    user: roas_master
+    plan: free
 services:
   - type: web
     name: roas-master-api
@@ -9,12 +14,14 @@ services:
       - key: NODE_ENV
         value: production
       - key: DATABASE_URL
-        sync: false
+        fromDatabase:
+          name: roas-master-db
+          property: connectionString
       - key: JWT_SECRET
         generateValue: true
       - key: SETUP_KEY
         generateValue: true
-      - key: FRONTEND_ORIGIN
-        value: https://faizanxhustle-lab.github.io
       - key: TELEGRAM_WEBHOOK_SECRET
         generateValue: true
+      - key: FRONTEND_ORIGIN
+        value: https://faizanxhustle-lab.github.io
